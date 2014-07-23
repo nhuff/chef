@@ -1,5 +1,9 @@
 # Chef Client Release Notes:
 
+## Dropped Support For Ruby 1.8.7
+
+Ruby 1.8.7 is no longer supported.
+
 ## Changed no_lazy_load config default to True
 
 Previously the default behavior of chef-client was lazily synchronize cookbook files and templates as
