@@ -21,7 +21,7 @@ describe Chef::CookbookCacheCleaner do
       valid_cached_cb_files = %w{cookbooks/valid1/recipes/default.rb cookbooks/valid2/recipes/default.rb}
       cleaner.mark_file_as_valid('cookbooks/valid1/recipes/default.rb')
       cleaner.mark_file_as_valid('cookbooks/valid2/recipes/default.rb')
-      expect(file_cache).to receive(:find).with(File.join(%w{cookbooks ** *})).and_return(valid_cached_cb_files + unused_template_files)
+      expect(file_cache).to receive(:find).with(File.join(%w{cookbooks ** {*,.*}})).and_return(valid_cached_cb_files + unused_template_files)
       expect(file_cache).to receive(:delete).with('cookbooks/unused/templates/default/foo.conf.erb')
       expect(file_cache).to receive(:delete).with('cookbooks/unused/tempaltes/default/bar.conf.erb')
       cookbook_hash = {"valid1"=> {}, "valid2" => {}}
@@ -125,7 +125,7 @@ describe Chef::CookbookSynchronizer do
     it "removes unneeded cookbooks" do
       valid_cached_cb_files = %w{cookbooks/valid1/recipes/default.rb cookbooks/valid2/recipes/default.rb}
       obsolete_cb_files = %w{cookbooks/old1/recipes/default.rb cookbooks/old2/recipes/default.rb}
-      expect(file_cache).to receive(:find).with(File.join(%w{cookbooks ** *})).and_return(valid_cached_cb_files + obsolete_cb_files)
+      expect(file_cache).to receive(:find).with(File.join(%w{cookbooks ** {*,.*}})).and_return(valid_cached_cb_files + obsolete_cb_files)
       expect(file_cache).to receive(:delete).with('cookbooks/old1/recipes/default.rb')
       expect(file_cache).to receive(:delete).with('cookbooks/old2/recipes/default.rb')
       allow(synchronizer).to receive(:cache).and_return(file_cache)
